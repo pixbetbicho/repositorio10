@@ -26,11 +26,8 @@ async function recreateDatabase() {
         password TEXT NOT NULL,
         email TEXT,
         name TEXT,
-        cpf TEXT UNIQUE,
-        balance REAL NOT NULL DEFAULT 0,
+        balance INTEGER NOT NULL DEFAULT 0,
         is_admin BOOLEAN NOT NULL DEFAULT FALSE,
-        default_pix_key TEXT,
-        default_pix_key_type TEXT,
         created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
       );
     `);
@@ -59,11 +56,6 @@ async function recreateDatabase() {
         result_animal_id_3 INTEGER,
         result_animal_id_4 INTEGER,
         result_animal_id_5 INTEGER,
-        result_number_1 TEXT,
-        result_number_2 TEXT,
-        result_number_3 TEXT,
-        result_number_4 TEXT,
-        result_number_5 TEXT,
         created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
       );
     `);
@@ -74,7 +66,7 @@ async function recreateDatabase() {
         id SERIAL PRIMARY KEY,
         name TEXT NOT NULL UNIQUE,
         description TEXT,
-        odds REAL NOT NULL,
+        odds INTEGER NOT NULL,
         active BOOLEAN NOT NULL DEFAULT TRUE,
         created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
       );
@@ -90,14 +82,14 @@ async function recreateDatabase() {
         animal_id_3 INTEGER,
         animal_id_4 INTEGER,
         animal_id_5 INTEGER,
-        amount REAL NOT NULL,
+        amount INTEGER NOT NULL,
         type TEXT NOT NULL,
         created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
         draw_id INTEGER NOT NULL,
         status TEXT NOT NULL DEFAULT 'pending',
-        win_amount REAL,
+        win_amount INTEGER,
         game_mode_id INTEGER,
-        potential_win_amount REAL,
+        potential_win_amount INTEGER,
         bet_numbers TEXT[],
         premio_type TEXT DEFAULT '1',
         FOREIGN KEY (user_id) REFERENCES users(id),
@@ -115,19 +107,15 @@ async function recreateDatabase() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS system_settings (
         id SERIAL PRIMARY KEY,
-        max_bet_amount REAL NOT NULL DEFAULT 10000,
-        max_payout REAL NOT NULL DEFAULT 100000,
-        min_bet_amount REAL NOT NULL DEFAULT 1,
-        default_bet_amount REAL NOT NULL DEFAULT 2,
-        main_color TEXT NOT NULL DEFAULT '#1F2937',
-        secondary_color TEXT NOT NULL DEFAULT '#9333EA',
-        accent_color TEXT NOT NULL DEFAULT '#10B981',
+        max_bet_amount INTEGER NOT NULL,
+        max_payout INTEGER NOT NULL,
+        main_color TEXT NOT NULL,
+        secondary_color TEXT NOT NULL,
+        accent_color TEXT NOT NULL,
         allow_user_registration BOOLEAN NOT NULL DEFAULT TRUE,
         allow_deposits BOOLEAN NOT NULL DEFAULT TRUE,
         allow_withdrawals BOOLEAN NOT NULL DEFAULT TRUE,
         maintenance_mode BOOLEAN NOT NULL DEFAULT FALSE,
-        auto_approve_withdrawals BOOLEAN NOT NULL DEFAULT TRUE,
-        auto_approve_withdrawal_limit REAL NOT NULL DEFAULT 30,
         created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
       );
