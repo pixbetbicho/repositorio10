@@ -1,6 +1,6 @@
 import { hashPassword } from './server/auth';
 import { db } from './server/db';
-import { users, gameModes, animals, draws } from './shared/schema';
+import { users, gameModes, animals, draws, systemSettings } from './shared/schema';
 import { addDays, format } from 'date-fns';
 
 async function initializeAll() {
