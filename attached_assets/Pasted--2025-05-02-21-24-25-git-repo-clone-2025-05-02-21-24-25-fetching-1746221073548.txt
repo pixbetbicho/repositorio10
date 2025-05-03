@@ -1,0 +1,115 @@
+[2025-05-02 21:24:25] ╭──────────── git repo clone ───────────╼
+[2025-05-02 21:24:25] │  › fetching app source code
+[2025-05-02 21:24:25] │ => Selecting branch "main"
+[2025-05-02 21:24:25] │ => Checking out commit "bb48b0545ec013a8805a6d879e4a6172ef238229"
+[2025-05-02 21:24:25] │ 
+[2025-05-02 21:24:25] │  ✔ cloned repo to /workspace
+[2025-05-02 21:24:25] ╰────────────────────────────────────────╼
+[2025-05-02 21:24:25] 
+[2025-05-02 21:24:25]  › configuring build-time app environment variables:
+[2025-05-02 21:24:25]      SESSION_SECRET APP_HOST EZZEBANK_API_KEY EZZEBANK_MERCHANT_ID EZZEBANK_WEBHOOK_URL PUSHIN_PAY_TOKEN
+[2025-05-02 21:24:25] 
+[2025-05-02 21:24:25]  › configuring custom build command to be run at the end of the build:
+[2025-05-02 21:24:25]    │ npm install && npm run build
+[2025-05-02 21:24:25] 
+[2025-05-02 21:24:25] ╭──────────── buildpack detection ───────────╼
+[2025-05-02 21:24:25] │  › using Ubuntu 22.04 stack
+[2025-05-02 21:24:26] │ Detected the following buildpacks suitable to build your app:
+[2025-05-02 21:24:26] │ 
+[2025-05-02 21:24:26] │    digitalocean/nodejs-appdetect  v0.0.6    
+[2025-05-02 21:24:26] │    heroku/nodejs                  v0.288.4  (Node.js)
+[2025-05-02 21:24:26] │    digitalocean/procfile          v0.0.5    (Procfile)
+[2025-05-02 21:24:26] │    digitalocean/custom            v0.1.3    (Custom Build Command)
+[2025-05-02 21:24:26] ╰─────────────────────────────────────────────╼
+[2025-05-02 21:24:26] 
+[2025-05-02 21:24:26] ╭──────────── app build ───────────╼
+[2025-05-02 21:24:26] │ Warning: no analyzed metadata found at path '/layers/analyzed.toml'
+[2025-05-02 21:24:26] │ Timer: Builder started at 2025-05-02T21:24:26Z
+[2025-05-02 21:24:27] │        
+[2025-05-02 21:24:27] │ -----> Creating runtime environment
+[2025-05-02 21:24:27] │        
+[2025-05-02 21:24:27] │        NPM_CONFIG_LOGLEVEL=error
+[2025-05-02 21:24:27] │        NODE_VERBOSE=false
+[2025-05-02 21:24:27] │        NODE_ENV=
+[2025-05-02 21:24:27] │        NODE_MODULES_CACHE=true
+[2025-05-02 21:24:27] │        
+[2025-05-02 21:24:27] │ -----> Installing binaries
+[2025-05-02 21:24:27] │        engines.node (package.json):   unspecified
+[2025-05-02 21:24:27] │        engines.npm (package.json):    unspecified (use default)
+[2025-05-02 21:24:27] │        
+[2025-05-02 21:24:27] │        Resolving node version 22.x...
+[2025-05-02 21:24:27] │        Downloading and installing node 22.14.0...
+[2025-05-02 21:24:31] │        Using default npm version: 10.9.2
+[2025-05-02 21:24:31] │        
+[2025-05-02 21:24:31] │ -----> Installing dependencies
+[2025-05-02 21:24:31] │        Installing node modules
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │        added 484 packages, and audited 485 packages in 7s
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │        64 packages are looking for funding
+[2025-05-02 21:24:39] │          run `npm fund` for details
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │        7 moderate severity vulnerabilities
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │        To address issues that do not require attention, run:
+[2025-05-02 21:24:39] │          npm audit fix
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │        To address all issues (including breaking changes), run:
+[2025-05-02 21:24:39] │          npm audit fix --force
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │        Run `npm audit` for details.
+[2025-05-02 21:24:39] │        npm notice
+[2025-05-02 21:24:39] │        npm notice New major version of npm available! 10.9.2 -> 11.3.0
+[2025-05-02 21:24:39] │        npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.3.0
+[2025-05-02 21:24:39] │        npm notice To update run: npm install -g npm@11.3.0
+[2025-05-02 21:24:39] │        npm notice
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │ -----> Build
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │ -----> Caching build
+[2025-05-02 21:24:39] │        - npm cache
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │ -----> Pruning devDependencies
+[2025-05-02 21:24:39] │        Skipping because NODE_ENV is not 'production'
+[2025-05-02 21:24:39] │        
+[2025-05-02 21:24:39] │ -----> Build succeeded!
+[2025-05-02 21:24:40] │ Running custom build command: npm install && npm run build
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │ up to date, audited 485 packages in 1s
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │ 64 packages are looking for funding
+[2025-05-02 21:24:41] │   run `npm fund` for details
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │ 7 moderate severity vulnerabilities
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │ To address issues that do not require attention, run:
+[2025-05-02 21:24:41] │   npm audit fix
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │ To address all issues (including breaking changes), run:
+[2025-05-02 21:24:41] │   npm audit fix --force
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │ Run `npm audit` for details.
+[2025-05-02 21:24:41] │ npm notice
+[2025-05-02 21:24:41] │ npm notice New major version of npm available! 10.9.2 -> 11.3.0
+[2025-05-02 21:24:41] │ npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.3.0
+[2025-05-02 21:24:41] │ npm notice To update run: npm install -g npm@11.3.0
+[2025-05-02 21:24:41] │ npm notice
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │ > rest-express@1.0.0 build
+[2025-05-02 21:24:41] │ > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │ vite v5.4.14 building for production...
+[2025-05-02 21:24:41] │ ✓ 0 modules transformed.
+[2025-05-02 21:24:41] │ x Build failed in 7ms
+[2025-05-02 21:24:41] │ error during build:
+[2025-05-02 21:24:41] │ Could not resolve entry module "client/index.html".
+[2025-05-02 21:24:41] │     at getRollupError (file:///workspace/node_modules/rollup/dist/es/shared/parseAst.js:396:41)
+[2025-05-02 21:24:41] │     at error (file:///workspace/node_modules/rollup/dist/es/shared/parseAst.js:392:42)
+[2025-05-02 21:24:41] │     at ModuleLoader.loadEntryModule (file:///workspace/node_modules/rollup/dist/es/shared/node-entry.js:20086:20)
+[2025-05-02 21:24:41] │     at async Promise.all (index 0)
+[2025-05-02 21:24:41] │ building: exit status 1
+[2025-05-02 21:24:41] │ Timer: Builder ran for 14.937523268s and ended at 2025-05-02T21:24:41Z
+[2025-05-02 21:24:41] │ ERROR: failed to build: exit status 1
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │ 
+[2025-05-02 21:24:41] │  ✘ build failed

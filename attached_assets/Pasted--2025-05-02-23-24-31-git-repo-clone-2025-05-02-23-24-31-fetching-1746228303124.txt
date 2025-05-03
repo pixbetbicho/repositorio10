@@ -1,0 +1,119 @@
+[2025-05-02 23:24:31] ╭──────────── git repo clone ───────────╼
+[2025-05-02 23:24:31] │  › fetching app source code
+[2025-05-02 23:24:31] │ => Selecting branch "main"
+[2025-05-02 23:24:31] │ => Checking out commit "8532ad0f2a68de9d8d01832d3ba9dc35521bd437"
+[2025-05-02 23:24:31] │ 
+[2025-05-02 23:24:31] │  ✔ cloned repo to /workspace
+[2025-05-02 23:24:31] ╰────────────────────────────────────────╼
+[2025-05-02 23:24:31] 
+[2025-05-02 23:24:32]  › configuring build-time app environment variables:
+[2025-05-02 23:24:32]      SESSION_SECRET APP_HOST EZZEBANK_API_KEY EZZEBANK_MERCHANT_ID EZZEBANK_WEBHOOK_URL PUSHIN_PAY_TOKEN
+[2025-05-02 23:24:32] 
+[2025-05-02 23:24:32]  › configuring custom build command to be run at the end of the build:
+[2025-05-02 23:24:32]    │ chmod +x build-do.sh && ./build-do.sh
+[2025-05-02 23:24:32] 
+[2025-05-02 23:24:32] ╭──────────── buildpack detection ───────────╼
+[2025-05-02 23:24:32] │  › using Ubuntu 22.04 stack
+[2025-05-02 23:24:32] │ Detected the following buildpacks suitable to build your app:
+[2025-05-02 23:24:32] │ 
+[2025-05-02 23:24:32] │    digitalocean/nodejs-appdetect  v0.0.6    
+[2025-05-02 23:24:32] │    heroku/nodejs                  v0.288.4  (Node.js)
+[2025-05-02 23:24:32] │    digitalocean/procfile          v0.0.5    (Procfile)
+[2025-05-02 23:24:32] │    digitalocean/custom            v0.1.3    (Custom Build Command)
+[2025-05-02 23:24:32] ╰─────────────────────────────────────────────╼
+[2025-05-02 23:24:32] 
+[2025-05-02 23:24:33] ╭──────────── app build ───────────╼
+[2025-05-02 23:24:33] │ Warning: no analyzed metadata found at path '/layers/analyzed.toml'
+[2025-05-02 23:24:33] │ Timer: Builder started at 2025-05-02T23:24:33Z
+[2025-05-02 23:24:33] │        
+[2025-05-02 23:24:33] │ -----> Creating runtime environment
+[2025-05-02 23:24:33] │        
+[2025-05-02 23:24:33] │        NPM_CONFIG_LOGLEVEL=error
+[2025-05-02 23:24:33] │        NODE_VERBOSE=false
+[2025-05-02 23:24:33] │        NODE_ENV=
+[2025-05-02 23:24:33] │        NODE_MODULES_CACHE=true
+[2025-05-02 23:24:33] │        
+[2025-05-02 23:24:33] │ -----> Installing binaries
+[2025-05-02 23:24:33] │        engines.node (package.json):   unspecified
+[2025-05-02 23:24:33] │        engines.npm (package.json):    unspecified (use default)
+[2025-05-02 23:24:33] │        
+[2025-05-02 23:24:33] │        Resolving node version 22.x...
+[2025-05-02 23:24:33] │        Downloading and installing node 22.14.0...
+[2025-05-02 23:24:37] │        Using default npm version: 10.9.2
+[2025-05-02 23:24:38] │        
+[2025-05-02 23:24:38] │ -----> Installing dependencies
+[2025-05-02 23:24:38] │        Installing node modules
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │        added 484 packages, and audited 485 packages in 7s
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │        64 packages are looking for funding
+[2025-05-02 23:24:45] │          run `npm fund` for details
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │        7 moderate severity vulnerabilities
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │        To address issues that do not require attention, run:
+[2025-05-02 23:24:45] │          npm audit fix
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │        To address all issues (including breaking changes), run:
+[2025-05-02 23:24:45] │          npm audit fix --force
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │        Run `npm audit` for details.
+[2025-05-02 23:24:45] │        npm notice
+[2025-05-02 23:24:45] │        npm notice New major version of npm available! 10.9.2 -> 11.3.0
+[2025-05-02 23:24:45] │        npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.3.0
+[2025-05-02 23:24:45] │        npm notice To update run: npm install -g npm@11.3.0
+[2025-05-02 23:24:45] │        npm notice
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │ -----> Build
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │ -----> Caching build
+[2025-05-02 23:24:45] │        - npm cache
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │ -----> Pruning devDependencies
+[2025-05-02 23:24:45] │        Skipping because NODE_ENV is not 'production'
+[2025-05-02 23:24:45] │        
+[2025-05-02 23:24:45] │ -----> Build succeeded!
+[2025-05-02 23:24:46] │ Procfile: configuring type "web" process: "./deploy.sh"
+[2025-05-02 23:24:46] │ Running custom build command: chmod +x build-do.sh && ./build-do.sh
+[2025-05-02 23:24:46] │ ===== INICIANDO BUILD-DO.SH =====
+[2025-05-02 23:24:46] │ Diretório atual: /workspace
+[2025-05-02 23:24:46] │ Conteúdo do diretório atual:
+[2025-05-02 23:24:46] │ total 1448
+[2025-05-02 23:24:46] │ drwxr-xr-x   7 apps apps    4096 May  2 23:24 .
+[2025-05-02 23:24:46] │ drwxr-xr-x  22 root root    4096 Apr 18 16:21 ..
+[2025-05-02 23:24:46] │ drwxrwxr-x   3 apps apps    4096 May  2 23:24 .buildpack
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps      33 May  2 23:24 .deployment
+[2025-05-02 23:24:46] │ drwxr-xr-x   4 apps apps    4096 May  2 23:24 .git
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps      67 May  2 23:24 .gitignore
+[2025-05-02 23:24:46] │ drwxrwxr-x   4 apps apps    4096 May  2 23:24 .heroku
+[2025-05-02 23:24:46] │ drwxrwxr-x   2 apps apps    4096 May  2 23:24 .profile.d
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps     853 May  2 23:24 .replit
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps     236 May  2 23:24 .replit.deploy.json
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps      16 May  2 23:24 Procfile
+[2025-05-02 23:24:46] │ -rwxr-xr-x   1 apps apps    4717 May  2 23:24 build-do.sh
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps     459 May  2 23:24 components.json
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps    1707 May  2 23:24 deploy.sh
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps     325 May  2 23:24 drizzle.config.ts
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps 1039173 May  2 23:24 generated-icon.png
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps    1506 May  2 23:24 init-admin.ts
+[2025-05-02 23:24:46] │ drwxrwxr-x 319 apps apps   12288 May  2 23:24 node_modules
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps  320327 May  2 23:24 package-lock.json
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps    3637 May  2 23:24 package.json
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps      80 May  2 23:24 postcss.config.js
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps    4213 May  2 23:24 reset-db.ts
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps     121 May  2 23:24 run.nix
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps    2787 May  2 23:24 tailwind.config.ts
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps     657 May  2 23:24 tsconfig.json
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps     323 May  2 23:24 vercel.json
+[2025-05-02 23:24:46] │ -rw-r--r--   1 apps apps     894 May  2 23:24 vite.config.ts
+[2025-05-02 23:24:46] │ Procurando pela estrutura do projeto...
+[2025-05-02 23:24:46] │ AVISO: Diretório client não encontrado. Tentando continuar mesmo assim.
+[2025-05-02 23:24:46] │ Criado diretório client mínimo para continuar o build
+[2025-05-02 23:24:46] │ ERRO: Diretório server não encontrado!
+[2025-05-02 23:24:46] │ building: exit status 1
+[2025-05-02 23:24:46] │ Timer: Builder ran for 13.266949864s and ended at 2025-05-02T23:24:46Z
+[2025-05-02 23:24:46] │ ERROR: failed to build: exit status 1
+[2025-05-02 23:24:46] │ 
+[2025-05-02 23:24:46] │ 
+[2025-05-02 23:24:46] │  ✘ build failed
+[]
