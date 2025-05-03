@@ -348,3 +348,31 @@ export const insertTransactionSchema = createInsertSchema(transactions)
 
 export type InsertTransaction = z.infer<typeof insertTransactionSchema>;
 export type Transaction = typeof transactions.$inferSelect;
+
+// System Settings schema
+export const systemSettings = pgTable("system_settings", {
+  id: serial("id").primaryKey(),
+  maxBetAmount: real("max_bet_amount").notNull().default(10000),
+  maxPayout: real("max_payout").notNull().default(100000),
+  minBetAmount: real("min_bet_amount").notNull().default(1),
+  defaultBetAmount: real("default_bet_amount").notNull().default(2),
+  mainColor: text("main_color").notNull().default('#1F2937'),
+  secondaryColor: text("secondary_color").notNull().default('#9333EA'),
+  accentColor: text("accent_color").notNull().default('#10B981'),
+  allowUserRegistration: boolean("allow_user_registration").notNull().default(true),
+  allowDeposits: boolean("allow_deposits").notNull().default(true),
+  allowWithdrawals: boolean("allow_withdrawals").notNull().default(true),
+  maintenanceMode: boolean("maintenance_mode").notNull().default(false),
+  autoApproveWithdrawals: boolean("auto_approve_withdrawals").notNull().default(true),
+  autoApproveWithdrawalLimit: real("auto_approve_withdrawal_limit").notNull().default(30),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertSystemSettingsSchema = createInsertSchema(systemSettings)
+  .omit({
+    id: true,
+    createdAt: true,
+  });
+
+export type InsertSystemSettings = z.infer<typeof insertSystemSettingsSchema>;
+export type SystemSettings = typeof systemSettings.$inferSelect;
