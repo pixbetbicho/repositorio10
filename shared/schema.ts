@@ -366,12 +366,14 @@ export const systemSettings = pgTable("system_settings", {
   autoApproveWithdrawals: boolean("auto_approve_withdrawals").notNull().default(true),
   autoApproveWithdrawalLimit: real("auto_approve_withdrawal_limit").notNull().default(30),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const insertSystemSettingsSchema = createInsertSchema(systemSettings)
   .omit({
     id: true,
     createdAt: true,
+    updatedAt: true,
   });
 
 export type InsertSystemSettings = z.infer<typeof insertSystemSettingsSchema>;
