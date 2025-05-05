@@ -34,6 +34,8 @@ async function initializeAdmin() {
       username: "admin",
       password: hashedPassword,
       name: "Administrador",
+      cpf: "12345678910",
+      default_pix_key: "pix@pix",
       email: "admin@bichomania.com",
       isAdmin: true,
       balance: 1000 // Saldo inicial para testes
