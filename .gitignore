@@ -4,3 +4,6 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+docker-compose.yml
+dev.sh
+.env

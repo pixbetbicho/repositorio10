@@ -51,7 +51,7 @@ export class EzzebankService {
   constructor() {
     this.apiKey = process.env.EZZEBANK_API_KEY || '';
     this.merchantId = process.env.EZZEBANK_MERCHANT_ID || '';
-    this.baseUrl = 'https://api.ezzebank.com/v1';
+    this.baseUrl = 'https://api-staging.ezzebank.com/v1'; ////MUDAR DEPOIS
     
     // Configurar proxy para contornar o bloqueio de IP
     this.useProxy = false; // Temporariamente desativado para usar fallback
@@ -218,7 +218,7 @@ export class EzzebankService {
             };
           } catch (proxyError) {
             console.error('[Ezzebank] Erro ao usar proxy:', proxyError);
-            throw new Error(`Falha em todas as tentativas de comunicação com a Ezzebank: ${proxyError.message}`);
+            throw new Error(`Falha em todas as tentativas de comunicação com a Ezzebank: ${(proxyError as Error)?.message ?? 'Erro desconhecido'}`);
           }
         }
         

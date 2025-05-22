@@ -990,7 +990,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       );
       
       // Obter o valor total dos ganhos da primeira linha do resultado
-      const totalWinnings = parseFloat(result.rows[0]?.total_winnings || '0');
+      const totalWinnings = parseFloat(String(result.rows[0]?.total_winnings || '0'));
       
       console.log(`Total de ganhos do usuário ${userId}: R$ ${totalWinnings.toFixed(2)}`);
       
@@ -2631,8 +2631,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Iniciar pagamento via Ezzebank
   app.post("/api/payments/ezzebank", requireAuth, async (req, res) => {
     try {
-      const userId = req.user.id;
-      const username = req.user.username;
+      const userId = req.user?.id;
+      const username = req.user?.username;
       const { amount } = req.body;
       
       if (!amount) {
@@ -2683,16 +2683,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         type: "deposit"
       };
       
-      const transaction = await storage.createPaymentTransaction(transactionData);
+
+      if (!transactionData.userId) {
+        throw new Error("O ID do usuário é necessário, mas não foi definido.");
+      }
+      const transaction = await storage.createPaymentTransaction({
+        ...transactionData,
+        userId: transactionData.userId, // Ensure userId is not undefined
+      });
       
       try {
         // Chamar a API do Ezzebank
         const paymentResult = await ezzebankService.createPixPayment(
           transaction,
           parsedAmount,
-          req.user.name || req.user.username,
-          req.user.email,
-          req.user.cpf
+          req.user?.name || req.user?.username,
+          req.user?.email ?? undefined,
+          req.user?.cpf ?? undefined
         );
         
         // Atualizar a transação com os dados retornados
@@ -2805,7 +2812,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         transactionId,
         systemStatus,
         id, // ID externo da transação no Ezzebank
-        transaction.externalUrl, // Manter a URL externa existente
+        transaction.externalUrl ?? undefined, // Manter a URL externa existente
         req.body // Salvar todo o payload para registro
       );
       
@@ -2965,7 +2972,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Solicitar um saque (requer autenticação)
   app.post('/api/withdrawals', requireAuth, async (req, res) => {
     try {
-      const userId = req.user.id;
+      const userId = req.user?.id;
       
       // Validar e extrair dados do corpo da requisição
       const withdrawalData = insertWithdrawalSchema.parse({
@@ -3002,12 +3009,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Obter todos os saques do usuário
   app.get('/api/withdrawals', requireAuth, async (req, res) => {
     try {
-      const userId = req.user.id;
+      const userId = req.user?.id;
+      
+      if (userId === undefined) {
+        return res.status(400).json({ message: "É necessário um ID de usuário" });
+      }
       
       const withdrawals = await storage.getUserWithdrawals(userId);
       res.json(withdrawals);
     } catch (error) {
-      console.error(`Erro ao buscar saques do usuário ${req.user.id}:`, error);
+      console.error(`Erro ao buscar saques do usuário ${req.user?.id}:`, error);
       res.status(500).json({ message: "Erro ao buscar histórico de saques" });
     }
   });
@@ -3027,8 +3038,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Verificar se o saque pertence ao usuário atual, a menos que seja admin
-      if (withdrawal.userId !== req.user.id && !req.user.isAdmin) {
-        console.log(`NEGADO: Usuário ${req.user.id} tentando acessar saque ${withdrawalId} do usuário ${withdrawal.userId}`);
+      if (!req.user || (withdrawal.userId !== req.user.id && !req.user.isAdmin)) {
+        console.log(`NEGADO: Usuário ${req.user?.id} tentando acessar saque ${withdrawalId} do usuário ${withdrawal.userId}`);
         return res.status(403).json({ message: "Acesso negado" });
       }
       
@@ -3156,7 +3167,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const withdrawal = await storage.updateWithdrawalStatus(
         withdrawalId, 
         status as WithdrawalStatus, 
-        req.user.id, // ID do admin que está processando
+        req.user?.id, // ID do admin que está processando
         rejectionReason,
         notes
       );
@@ -3167,7 +3178,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const processingWithdrawal = await storage.updateWithdrawalStatus(
           withdrawalId,
           "processing" as WithdrawalStatus,
-          req.user.id
+          req.user?.id
         );
         
         // TODO: Iniciar o pagamento via API da Pushin Pay
@@ -3193,12 +3204,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Obter histórico de transações do usuário logado
   app.get('/api/transactions/history', requireAuth, async (req, res) => {
     try {
-      const userId = req.user.id;
+      const userId = req.user?.id;
       
+      if (userId === undefined) {
+        return res.status(400).json({ message: "É necessário um ID de usuário" });
+      }
       const transactions = await storage.getUserTransactionHistory(userId);
       res.json(transactions);
     } catch (error) {
-      console.error(`Erro ao buscar histórico de transações do usuário ${req.user.id}:`, error);
+      console.error(`Erro ao buscar histórico de transações do usuário ${req.user?.id}:`, error);
       res.status(500).json({ message: "Erro ao buscar histórico de transações" });
     }
   });
@@ -3285,8 +3299,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             await storage.updateWithdrawalStatus(
               saque.id,
               "approved" as WithdrawalStatus,
-              null, // processedBy - automático
-              null, // rejectionReason
+              undefined, // processedBy - automático
+              undefined, // rejectionReason
               "Pagamento confirmado pelo gateway"
             );
             
@@ -3374,8 +3388,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             await storage.updateWithdrawalStatus(
               saque.id,
               "approved" as WithdrawalStatus,
-              null,
-              null,
+              undefined,
+              undefined,
               `Pagamento confirmado automaticamente após ${tempoHoras.toFixed(1)}h de processamento`
             );
             

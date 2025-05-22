@@ -9,7 +9,7 @@ import { User as SelectUser } from "@shared/schema";
 
 declare global {
   namespace Express {
-    interface User extends SelectUser {}
+    interface User extends SelectUser { }
   }
 }
 
@@ -54,7 +54,7 @@ export function setupAuth(app: Express) {
     new LocalStrategy(async (username, password, done) => {
       const user = await storage.getUserByUsername(username);
       if (!user || !(await comparePasswords(password, user.password))) {
-        return done(null, false);
+        return done(null, false, { message: "Senha incorreta" });
       } else {
         return done(null, user);
       }
@@ -88,7 +88,7 @@ export function setupAuth(app: Express) {
 
       req.login(user, (err) => {
         if (err) return next(err);
-        
+
         // Remover senha antes de retornar ao cliente
         const { password, ...userWithoutPassword } = user;
         res.status(201).json(userWithoutPassword);
@@ -98,15 +98,28 @@ export function setupAuth(app: Express) {
     }
   });
 
-  app.post("/api/login", passport.authenticate("local"), (req, res) => {
-    // Remover senha antes de retornar ao cliente
-    if (req.user) {
-      const { password, ...userWithoutPassword } = req.user;
-      res.status(200).json(userWithoutPassword);
-    } else {
-      res.status(401).json({ message: "Authentication failed" });
-    }
+  app.post("/api/login", (req, res, next) => {
+    passport.authenticate("local", (err: any, user: Express.User, info: { message: any; }) => {
+      if (err) return next(err);
+      if (!user) return res.status(401).json({ message: info?.message || "Authentication failed" });
+
+      req.logIn(user, (err) => {
+        if (err) return next(err);
+        const { password, ...userWithoutPassword } = user;
+        return res.status(200).json(userWithoutPassword);
+      });
+    })(req, res, next);
   });
+
+  // app.post("/api/login", passport.authenticate("local"), (req, res) => {
+  //   // Remover senha antes de retornar ao cliente
+  //   if (req.user) {
+  //     const { password, ...userWithoutPassword } = req.user;
+  //     res.status(200).json(userWithoutPassword);
+  //   } else {
+  //     res.status(401).json({ message: "Authentication failed" });
+  //   }
+  // });
 
   app.post("/api/logout", (req, res, next) => {
     req.logout((err) => {
@@ -117,38 +130,38 @@ export function setupAuth(app: Express) {
 
   app.get("/api/user", (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
-    
+
     // Remover senha antes de retornar ao cliente
     const { password, ...userWithoutPassword } = req.user;
     res.json(userWithoutPassword);
   });
-  
+
   // Atualizar chave PIX padrão do usuário
   app.put('/api/user/pix-key', (req, res) => {
     try {
       if (!req.isAuthenticated()) {
         return res.sendStatus(401);
       }
-      
+
       const userId = req.user!.id;
       const { pixKey, pixKeyType } = req.body;
-      
+
       // Validar se os campos obrigatórios estão presentes
       if (!pixKey || !pixKeyType) {
         return res.status(400).json({ message: "Chave PIX e tipo são obrigatórios" });
       }
-      
+
       // Validar o tipo da chave (apenas CPF por enquanto)
       if (pixKeyType !== "cpf") {
         return res.status(400).json({ message: "Tipo de chave PIX inválido. Apenas CPF é suportado no momento." });
       }
-      
+
       // Validação básica de CPF (formato de números)
       const cpfDigits = pixKey.replace(/\D/g, '');
       if (cpfDigits.length !== 11) {
         return res.status(400).json({ message: "CPF deve conter 11 dígitos" });
       }
-      
+
       // Atualizar o usuário com a nova chave PIX
       storage.updateUser(userId, {
         defaultPixKey: pixKey,
@@ -157,7 +170,7 @@ export function setupAuth(app: Express) {
         if (!updatedUser) {
           return res.status(404).json({ message: "Usuário não encontrado" });
         }
-        
+
         // Remover senha antes de retornar
         const { password, ...userWithoutPassword } = updatedUser;
         res.json({ message: "Chave PIX atualizada com sucesso", user: userWithoutPassword });
@@ -165,7 +178,7 @@ export function setupAuth(app: Express) {
         console.error("Erro ao atualizar chave PIX:", error);
         res.status(500).json({ message: "Erro ao atualizar chave PIX" });
       });
-      
+
     } catch (error) {
       console.error("Erro ao processar atualização de chave PIX:", error);
       res.status(500).json({ message: "Erro ao processar solicitação" });
